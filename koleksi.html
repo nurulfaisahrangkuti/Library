@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Exhibition</title>
+  <style>
+    #book-gallery {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .book {
+      width: 200px;
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+
+    #search-input {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Book Exhibition</h1>
+  <input type="text" id="search-input" placeholder="Search...">
+  <div id="book-gallery"></div>
+
+  <script>
+    // Data buku
+    const books = [
+      { 
+        title: 'Book 1',
+        author: 'Author 1',
+        cover: 'https://via.placeholder.com/150'
+      },
+      { 
+        title: 'Book 2',
+        author: 'Author 2',
+        cover: 'https://via.placeholder.com/150'
+      },
+      { 
+        title: 'Book 3',
+        author: 'Author 3',
+        cover: 'https://via.placeholder.com/150'
+      }
+    ];
+
+    // Fungsi untuk membuat tampilan buku
+    function createBookElement(book) {
+      const bookElement = document.createElement('div');
+      bookElement.classList.add('book');
+      
+      const titleElement = document.createElement('h2');
+      titleElement.textContent = book.title;
+
+      const authorElement = document.createElement('p');
+      authorElement.textContent = 'By: ' + book.author;
+
+      const coverElement = document.createElement('img');
+      coverElement.src = book.cover;
+      coverElement.alt = book.title;
+
+      bookElement.appendChild(titleElement);
+      bookElement.appendChild(authorElement);
+      bookElement.appendChild(coverElement);
+
+      return bookElement;
+    }
+
+    // Menambahkan buku ke dalam galeri
+    const bookGallery = document.getElementById('book-gallery');
+    books.forEach(book => {
+      const bookElement = createBookElement(book);
+      bookGallery.appendChild(bookElement);
+    });
+
+    // Fungsi untuk melakukan pencarian
+    document.getElementById('search-input').addEventListener('input', function() {
+      const searchText = this.value.toLowerCase();
+      const filteredBooks = books.filter(book => {
+        return book.title.toLowerCase().includes(searchText) || book.author.toLowerCase().includes(searchText);
+      });
+
+      // Menghapus semua buku yang ada di galeri
+      bookGallery.innerHTML = '';
+
+      // Menambahkan kembali buku yang sudah difilter
+      filteredBooks.forEach(book => {
+        const bookElement = createBookElement(book);
+        bookGallery.appendChild(bookElement);
+      });
+    });
+  </script>
+</body>
+</html>
